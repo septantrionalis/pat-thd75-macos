@@ -1,0 +1,26 @@
+{
+  "mycall": "N0CALL",
+  "secure_login_password": "",
+  "locator": "",
+  "http_addr": "localhost:8080",
+  "connect_aliases": {
+    "telnet": "telnet://{mycall}:CMSTelnet@cms.winlink.org:8772/wl2k",
+    "example-packet": "ax25+agwpe:///N0CALL-10"
+  },
+  "ax25": {
+    "engine": "agwpe",
+    "rig": "",
+    "beacon": {
+      "every": 0,
+      "message": "",
+      "destination": "IDENT"
+    }
+  },
+  "agwpe": {
+    "addr": "127.0.0.1:8000",
+    "radio_port": 0
+  },
+  "listen": [],
+  "hamlib_rigs": {},
+  "schedule": {}
+}

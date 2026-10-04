@@ -1,0 +1,14 @@
+# Private local configuration (never commit credentials)
+/pat-packet.json
+/tncd.ini
+/tncd-bluetooth-native.ini
+/local.env
+*.log
+.DS_Store
+# Downloaded third-party source, binaries, and build output
+/AX25Toolkit-main/
+/tncd
+/reset-radio-link
+*.tar.gz
+*.zip
+__pycache__/
