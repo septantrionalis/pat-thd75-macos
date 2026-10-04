@@ -6,7 +6,9 @@ if [[ ! "$BLUETOOTH_ADDRESS" =~ '^([[:xdigit:]]{2}:){5}[[:xdigit:]]{2}$' ]]; the
     exit 1
 fi
 require_file ./tncd-bluetooth-native.ini || exit 1
-for program in ./reset-radio-link ./tncd ./AX25Toolkit-main/bin/bt_kiss_bridge; do
+bridge_bin=./bin/bt_kiss_bridge
+[[ -x "$bridge_bin" ]] || bridge_bin=./AX25Toolkit-main/bin/bt_kiss_bridge
+for program in ./reset-radio-link ./tncd "$bridge_bin"; do
     require_executable "$program" || exit 1
 done
 for port in 8000 8001; do
@@ -29,7 +31,7 @@ cleanup() {
 trap cleanup EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
-./AX25Toolkit-main/bin/bt_kiss_bridge --bt --device "$BLUETOOTH_ADDRESS" --channel 2 --server-host 127.0.0.1 --server-port 8001 --monitor &
+"$bridge_bin" --bt --device "$BLUETOOTH_ADDRESS" --channel 2 --server-host 127.0.0.1 --server-port 8001 --monitor &
 native_pid=$!
 ready=0
 for attempt in {1..30}; do

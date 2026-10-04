@@ -36,7 +36,8 @@ clearing the existing link.
   executable. Its macOS support is beta.
 - For Bluetooth only: the separately downloaded AX25Toolkit source below.
 
-Downloaded third-party source and binaries are deliberately excluded from Git.
+Downloaded third-party source and binaries are excluded from Git except for
+the explicitly included `bin/bt_kiss_bridge` (Apple Silicon).
 No system service, driver installation, or global Bluetooth reset is required.
 
 ## Configure your private settings
@@ -72,13 +73,37 @@ also update the launchers. Nothing should listen on external interfaces.
 **Never commit `pat-packet.json` or `local.env`.** They are ignored, along with
 local INI files, logs, downloaded source, and binaries. Publish only examples.
 
+## Use the included Apple Silicon binary
+
+`bin/bt_kiss_bridge` is the locally built ARM64 executable. The Bluetooth
+launcher prefers it, falling back to the toolkit build if it is absent.
+See `bin/README.md` for provenance and limitations. Verify it from this directory:
+
+```sh
+shasum -a 256 -c bin/SHA256SUMS
+```
+
+You still need Pat, tncd, private configuration, and the reset helper. Build
+only the helper if using the included bridge:
+
+```sh
+clang -fobjc-arc -framework Foundation -framework IOBluetooth reset-radio-link.m -o reset-radio-link
+```
+
+The included bridge is not an Intel Mac binary and is not Developer ID signed
+or notarized. Build from source below if needed. To use a fresh toolkit build
+instead of the included binary, replace `bin/bt_kiss_bridge` with that build
+and regenerate `bin/SHA256SUMS`.
+
 ## Build the native Bluetooth bridge
 
 Upstream: https://github.com/solariun/AX25Toolkit
 
 Pinned source revision: `943d1cc6e2313d339d13dc1fc317d6aea7930fee`.
 At preparation time this source had no declared license file and GitHub showed
-no license metadata. This repository does not bundle its source or binary.
+no license metadata. This repository includes a locally built ARM64 binary at the owner's request,
+but does not bundle the complete upstream source. Inclusion does not resolve
+the upstream licensing uncertainty.
 Do not assume permission to redistribute either; clarify with its maintainer
 before including them in your own releases. See `THIRD_PARTY.md`.
 
@@ -189,6 +214,7 @@ that is separate from the 1200-baud over-the-air speed.
 
 Make this directory the repository root. Review `.gitignore` before staging.
 It excludes actual credentials, radio addresses in `local.env`, third-party
-source and binaries, archives, and logs. Do not use `git add -f` for those files.
+source, private runtime binaries, archives, and logs. `bin/bt_kiss_bridge` is
+the explicit binary exception. Do not use `git add -f` for those files.
 Review `git diff --cached` before any commit or push. No repository, commit,
 remote, or push is created automatically by these scripts.
