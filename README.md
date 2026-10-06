@@ -140,7 +140,25 @@ failure, and diagnostic output. It does not modify KISS or AX.25 framing, or
    ./start-bridge.command
    ```
 
-### Bluetooth (experimental)
+### Bluetooth in one Terminal (experimental)
+
+With the radio paired, Menu 983 set to Bluetooth, KISS 12 enabled, and the data
+band tuned to your chosen gateway, run:
+
+```sh
+./start-bluetooth.command
+```
+
+This checks for Pat and configuration, starts the native Bluetooth bridge,
+waits for its AGWPE listener, then starts Pat and opens the browser. All output
+stays in one Terminal window. **Ctrl+C stops Pat and both bridge layers.**
+If either launcher exits, the combined launcher stops the other. Do not start
+this alongside an existing Pat or bridge session; occupied ports cause an
+error. It does not automatically connect to a gateway or send email.
+
+The separate launchers remain available for troubleshooting or USB operation.
+
+### Bluetooth in separate Terminals (experimental)
 
 1. Pair the radio with macOS. Set **Menu 983 = Bluetooth** and **KISS 12**.
 2. Tune the data band to the desired packet frequency. Close MacWinlink and
