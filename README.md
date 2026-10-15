@@ -210,6 +210,24 @@ that is separate from the 1200-baud over-the-air speed.
 
 ## Troubleshooting and validation
 
+### POTA spot template
+
+`templates/POTA-CW.txt` is a Pat text template addressed to
+`spot@pota.tdod.org`. It fills in KC0ZPS, US-1241, 14.0675 MHz, mode CW,
+and comment CW. The two trailing `CW` values are intentional: mode and comment.
+See https://potaspot.tdod.org for the service's command format.
+
+To compose with it, run from this repository directory:
+
+```sh
+pat --config "$PWD/pat-packet.json" compose --template "$PWD/templates/POTA-CW.txt"
+```
+
+Use your Pat executable in place of `pat` if it is not on PATH. For the web
+template picker, copy the file into your Pat forms directory. Review the
+details before queuing and connecting; sending the message creates a public
+spot. Creating or copying the template does not send anything.
+
 - Opening a port or seeing “Connected” in Bluetooth settings does not prove
   RF transmission. Look for the radio TX indication and incoming AX.25 replies.
 - Verify Menu 983 explicitly; enabling Bluetooth does not select the KISS route.
